@@ -1,0 +1,440 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>DailyTasks - Personal Planner</title>
+
+    <link rel="stylesheet" href="style.css">
+</head>
+<body>
+
+    <div class="app">
+
+        <!-- SIDEBAR -->
+        <aside class="sidebar">
+            <div class="brand">
+                <div>
+                    <h2>DailyTasks</h2>
+                    <p>Your space to focus</p>
+                </div>
+            </div>
+
+            <button class="add-task-btn" id="addTaskBtn">
+                + Create a task
+            </button>
+
+            <p class="menu-label">WORKSPACE</p>
+
+            <nav class="navigation">
+                <button class="nav-link active" data-page="dashboard">
+                    <span>⌂</span> Dashboard
+                </button>
+                <button class="nav-link" data-page="tasks">
+                    <span>☷</span> All tasks
+                </button>
+                <button class="nav-link" data-page="calendar">
+                    <span>▦</span> Calendar
+                </button>
+                <button class="nav-link" data-page="reminders">
+                    <span>♧</span> Reminders
+                </button>
+            </nav>
+
+            <p class="menu-label">MY LISTS</p>
+
+            <nav class="navigation">
+                <button class="nav-link category-link" data-category="College">
+                    <span class="category-dot purple"></span> College
+                </button>
+                <button class="nav-link category-link" data-category="Personal">
+                    <span class="category-dot green"></span> Personal
+                </button>
+                <button class="nav-link category-link" data-category="Work">
+                    <span class="category-dot orange"></span> Work
+                </button>
+                <button class="nav-link category-link" data-category="Other">
+                    <span class="category-dot blue"></span> Other
+                </button>
+            </nav>
+
+            <div class="sidebar-bottom">
+                <div class="mini-tip">
+                    <span>✦</span>
+                    <strong>A little progress every day adds up.</strong>
+                    <p>Keep going at your own pace.</p>
+                </div>
+
+                <button class="nav-link" data-page="settings">
+                    <span>⚙</span> Settings & themes
+                </button>
+            </div>
+        </aside>
+
+        <!-- MAIN CONTENT -->
+        <main class="main-content">
+
+            <header class="topbar">
+                <div>
+                    <p class="eyebrow" id="todayLabel">YOUR PERSONAL SPACE</p>
+                    <h1 id="pageHeading">DailyTasks ✨</h1>
+                </div>
+
+                <div class="topbar-actions">
+                    <button class="icon-btn" id="themeToggle" title="Toggle light and dark mode">
+                        ☾
+                    </button>
+                    <button class="profile-circle" title="Your planner">M</button>
+                </div>
+            </header>
+
+            <!-- DASHBOARD -->
+            <section class="page active" id="dashboardPage">
+
+                <div class="welcome-card">
+                    <div>
+                        <p class="eyebrow">A FRESH START</p>
+                        <h2>Welcome to DailyTasks.</h2>
+                        <p>One task at a time. You've got this!</p>
+                        <button class="primary-btn" id="welcomeAddBtn">
+                            + Add your first task
+                        </button>
+                    </div>
+                    <div class="welcome-decoration">✿</div>
+                </div>
+
+                <div class="stats-grid">
+                    <article class="stat-card">
+                        <div class="stat-top">
+                            <span>Today's tasks</span>
+                            <span class="stat-icon lavender">☷</span>
+                        </div>
+                        <h2 id="todayCount">0</h2>
+                        <p>Scheduled for today</p>
+                    </article>
+
+                    <article class="stat-card">
+                        <div class="stat-top">
+                            <span>Completed</span>
+                            <span class="stat-icon mint">✓</span>
+                        </div>
+                        <h2 id="completedCount">0</h2>
+                        <p>Tasks finished today</p>
+                    </article>
+
+                    <article class="stat-card">
+                        <div class="stat-top">
+                            <span>Upcoming</span>
+                            <span class="stat-icon peach">◷</span>
+                        </div>
+                        <h2 id="upcomingCount">0</h2>
+                        <p>Tasks scheduled ahead</p>
+                    </article>
+                </div>
+
+                <div class="dashboard-grid">
+                    <section class="panel">
+                        <div class="section-heading">
+                            <div>
+                                <h2>Today's focus</h2>
+                                <p>Your tasks for the day</p>
+                            </div>
+                            <button class="text-btn" data-open-page="tasks">View all →</button>
+                        </div>
+
+                        <div class="progress-area">
+                            <div class="progress-label">
+                                <span>Daily progress</span>
+                                <strong id="progressPercent">0%</strong>
+                            </div>
+                            <div class="progress-track">
+                                <div class="progress-fill" id="progressFill"></div>
+                            </div>
+                        </div>
+
+                        <div id="todayTaskList" class="task-list"></div>
+                    </section>
+
+                    <section class="panel">
+                        <div class="section-heading">
+                            <div>
+                                <h2>Coming up</h2>
+                                <p>Your next scheduled tasks</p>
+                            </div>
+                            <span class="small-icon">◷</span>
+                        </div>
+
+                        <div id="upcomingList" class="upcoming-list"></div>
+
+                        <div class="quote-card">
+                            <span>✦ A gentle reminder</span>
+                            <p>You don't have to do everything today. Just start with one thing.</p>
+                        </div>
+                    </section>
+                </div>
+            </section>
+
+            <!-- ALL TASKS -->
+            <section class="page" id="tasksPage">
+                <div class="panel">
+                    <div class="section-heading page-section-heading">
+                        <div>
+                            <h2 id="taskListTitle">All tasks</h2>
+                            <p>Keep everything in one organized place.</p>
+                        </div>
+                        <button class="primary-btn" id="taskPageAddBtn">+ New task</button>
+                    </div>
+
+                    <div class="filter-row">
+                        <input type="search" id="searchInput" placeholder="Search your tasks...">
+
+                        <select id="statusFilter" aria-label="Filter by status">
+                            <option value="all">All tasks</option>
+                            <option value="today">Today</option>
+                            <option value="upcoming">Upcoming</option>
+                            <option value="pending">Pending</option>
+                            <option value="completed">Completed</option>
+                        </select>
+
+                        <select id="priorityFilter" aria-label="Filter by priority">
+                            <option value="all">All priorities</option>
+                            <option value="High">High</option>
+                            <option value="Medium">Medium</option>
+                            <option value="Low">Low</option>
+                        </select>
+
+                        <select id="categoryFilter" aria-label="Filter by category">
+                            <option value="all">All categories</option>
+                            <option value="College">College</option>
+                            <option value="Personal">Personal</option>
+                            <option value="Work">Work</option>
+                            <option value="Other">Other</option>
+                        </select>
+                    </div>
+
+                    <div id="allTaskList" class="task-list"></div>
+                </div>
+            </section>
+
+            <!-- CALENDAR -->
+            <section class="page" id="calendarPage">
+                <div class="panel">
+                    <div class="section-heading page-section-heading">
+                        <div>
+                            <h2>My calendar</h2>
+                            <p>See what your days look like.</p>
+                        </div>
+
+                        <button class="primary-btn" id="calendarAddBtn">+ Add task</button>
+                    </div>
+
+                    <div class="calendar-toolbar">
+                        <div class="calendar-navigation">
+                            <button class="icon-btn" id="prevPeriod" aria-label="Previous period">‹</button>
+                            <h3 id="calendarTitle"></h3>
+                            <button class="icon-btn" id="nextPeriod" aria-label="Next period">›</button>
+                            <button class="secondary-btn" id="todayBtn">Today</button>
+                        </div>
+
+                        <select id="calendarView" aria-label="Calendar view">
+                            <option value="month">Monthly view</option>
+                            <option value="week">Weekly view</option>
+                        </select>
+                    </div>
+
+                    <div id="calendarGrid" class="calendar-grid"></div>
+
+                    <div class="calendar-legend">
+                        <span><i class="category-dot purple"></i> College</span>
+                        <span><i class="category-dot green"></i> Personal</span>
+                        <span><i class="category-dot orange"></i> Work</span>
+                        <span><i class="category-dot blue"></i> Other</span>
+                    </div>
+                </div>
+
+                <div class="panel selected-date-panel">
+                    <div class="section-heading">
+                        <div>
+                            <h2 id="selectedDateTitle">Tasks for selected date</h2>
+                            <p>Choose a date on the calendar to see its tasks.</p>
+                        </div>
+                    </div>
+                    <div id="selectedDateTasks" class="task-list"></div>
+                </div>
+            </section>
+
+            <!-- REMINDERS -->
+            <section class="page" id="remindersPage">
+                <div class="panel">
+                    <div class="section-heading page-section-heading">
+                        <div>
+                            <h2>Reminders</h2>
+                            <p>Keep important deadlines on your radar.</p>
+                        </div>
+                        <button class="primary-btn" id="enableNotificationsBtn">Enable notifications</button>
+                    </div>
+
+                    <div class="notice-card">
+                        <span>🔔</span>
+                        <div>
+                            <strong>Stay on top of your plans</strong>
+                            <p>Reminders are checked while this planner is open. Browser notifications require your permission.</p>
+                        </div>
+                    </div>
+
+                    <h3 class="subheading">Upcoming reminders</h3>
+                    <div id="reminderList" class="task-list"></div>
+                </div>
+            </section>
+
+            <!-- SETTINGS -->
+            <section class="page" id="settingsPage">
+                <div class="panel">
+                    <div class="section-heading">
+                        <div>
+                            <h2>Make it yours</h2>
+                            <p>Customize your planner to match your style.</p>
+                        </div>
+                    </div>
+
+                    <div class="settings-section">
+                        <h3>Appearance</h3>
+                        <p>Choose how your planner looks.</p>
+
+                        <div class="theme-mode-row">
+                            <button class="mode-option selected" data-mode="light">
+                                <span class="mode-preview light-preview">☀</span>
+                                <strong>Light mode</strong>
+                            </button>
+                            <button class="mode-option" data-mode="dark">
+                                <span class="mode-preview dark-preview">☾</span>
+                                <strong>Dark mode</strong>
+                            </button>
+                        </div>
+                    </div>
+
+                    <div class="settings-section">
+                        <h3>Preset themes</h3>
+                        <p>Select a color palette.</p>
+
+                        <div class="theme-grid">
+                            <button class="theme-option" data-theme="lavender">
+                                <span class="theme-swatch" style="--swatch:#8B78D8"></span>
+                                Lavender
+                            </button>
+                            <button class="theme-option" data-theme="sage">
+                                <span class="theme-swatch" style="--swatch:#648B72"></span>
+                                Sage
+                            </button>
+                            <button class="theme-option" data-theme="rose">
+                                <span class="theme-swatch" style="--swatch:#D87591"></span>
+                                Rose
+                            </button>
+                            <button class="theme-option" data-theme="ocean">
+                                <span class="theme-swatch" style="--swatch:#428DC2"></span>
+                                Ocean
+                            </button>
+                            <button class="theme-option" data-theme="sunshine">
+                                <span class="theme-swatch" style="--swatch:#C58B31"></span>
+                                Sunshine
+                            </button>
+                        </div>
+                    </div>
+
+                    <div class="settings-section">
+                        <h3>Custom accent color</h3>
+                        <p>Choose your own highlight color.</p>
+                        <label class="color-picker-label">
+                            <span>Accent color</span>
+                            <input type="color" id="customColor" value="#8B78D8">
+                        </label>
+                    </div>
+
+                    <div class="settings-section">
+                        <h3>Data</h3>
+                        <p>Your planner saves data in this browser.</p>
+                        <div class="data-actions">
+                            <button class="secondary-btn" id="exportBtn">Export tasks as CSV</button>
+                            <button class="danger-btn" id="clearDataBtn">Delete all tasks</button>
+                        </div>
+                    </div>
+                </div>
+            </section>
+
+            <footer class="app-footer">
+                Made for your everyday progress <span>♡</span>
+            </footer>
+        </main>
+    </div>
+
+    <!-- CREATE / EDIT TASK MODAL -->
+    <div class="modal-overlay" id="taskModal" aria-hidden="true">
+        <div class="modal" role="dialog" aria-modal="true" aria-labelledby="modalTitle">
+            <div class="modal-heading">
+                <div>
+                    <p class="eyebrow">YOUR NEXT STEP</p>
+                    <h2 id="modalTitle">Create a task</h2>
+                </div>
+                <button class="icon-btn" id="closeModalBtn" aria-label="Close">×</button>
+            </div>
+
+            <form id="taskForm">
+                <input type="hidden" id="taskId">
+
+                <label for="taskTitle">Task title *</label>
+                <input type="text" id="taskTitle" placeholder="e.g. Finish DBMS assignment" required maxlength="120">
+
+                <label for="taskDescription">Description (optional)</label>
+                <textarea id="taskDescription" placeholder="Add a few details..." rows="3"></textarea>
+
+                <div class="form-row">
+                    <div>
+                        <label for="taskDate">Due date *</label>
+                        <input type="date" id="taskDate" required>
+                    </div>
+                    <div>
+                        <label for="taskTime">Time (optional)</label>
+                        <input type="time" id="taskTime">
+                    </div>
+                </div>
+
+                <div class="form-row">
+                    <div>
+                        <label for="taskPriority">Priority</label>
+                        <select id="taskPriority">
+                            <option value="Medium">Medium</option>
+                            <option value="High">High</option>
+                            <option value="Low">Low</option>
+                        </select>
+                    </div>
+                    <div>
+                        <label for="taskCategory">Category</label>
+                        <select id="taskCategory">
+                            <option value="College">College</option>
+                            <option value="Personal">Personal</option>
+                            <option value="Work">Work</option>
+                            <option value="Other">Other</option>
+                        </select>
+                    </div>
+                </div>
+
+                <label class="reminder-checkbox">
+                    <input type="checkbox" id="taskReminder">
+                    <span>Set a reminder for this task</span>
+                </label>
+
+                <p class="form-hint">A reminder uses the task's due date and time. If no time is set, it defaults to 9:00 AM.</p>
+
+                <div class="modal-actions">
+                    <button type="button" class="secondary-btn" id="cancelModalBtn">Cancel</button>
+                    <button type="submit" class="primary-btn" id="saveTaskBtn">Save task</button>
+                </div>
+            </form>
+        </div>
+    </div>
+
+    <div class="toast" id="toastMessage" role="status"></div>
+
+    <script src="script.js"></script>
+</body>
+</html>
